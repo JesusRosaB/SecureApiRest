@@ -13,12 +13,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.apache.log4j.Logger;
 
 import uca.secureapirest.Article;
 
 @Path("/")
 public class SecureApiRest {
 
+	static Logger logger = Logger.getLogger(SecureApiRest.class);
+	
 	private static Map<String, Article> myMap = new HashMap<>();
 	static {
 		Article myArticle = new Article();
@@ -60,7 +66,7 @@ public class SecureApiRest {
 	public String sayPlainTextHello() {
 		return "Hello this is work";
 	}
-	
+
 	@GET
 	@Path("/articleJSON")
 	@Produces({ "application/json" })
@@ -105,10 +111,22 @@ public class SecureApiRest {
 	@GET
 	@Path("/getArticle/{article}")
 	@Produces({ "application/json" })
-	public String getImportantDate(@PathParam("article") String key) {
+	public Response getArticleStatus(@PathParam("article") String key) {
+		if (myMap.get(key) == null) {
+			logger.info("error "+Status.NOT_FOUND.getStatusCode());
+			return Response.status(Status.NOT_FOUND.getStatusCode()).entity((String) "The article does not exist")
+					.build();
+		} else {
+			logger.info("ok "+Status.ACCEPTED.getStatusCode());
+			return Response.status(Status.ACCEPTED.getStatusCode()).entity((String) getArticle(key)).build();
+		}
+	}
+
+	@Produces({ "application/json" })
+	public String getArticle(@PathParam("article") String key) {
 		Article myArticle = myMap.get(key);
-		return key + " is:\n" + "Oid: " + myArticle.getOid() + "\n" + "Autor: " + 
-				myArticle.getAutor() + "\n"+ "Description: " + myArticle.getDescription();
+		return key + " is:\n" + "Oid: " + myArticle.getOid() + "\n" + "Autor: " + myArticle.getAutor() + "\n"
+				+ "Description: " + myArticle.getDescription();
 	}
 
 }
