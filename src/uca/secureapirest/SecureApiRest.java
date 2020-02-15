@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import uca.secureapirest.Article;
 
-@Path("/hello")
+@Path("/")
 public class SecureApiRest {
 
 	private static Map<String, Article> myMap = new HashMap<>();
@@ -54,12 +54,13 @@ public class SecureApiRest {
 		myMap.put("art6", myArticle);
 	}
 
+	@Path("/hello")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String sayPlainTextHello() {
 		return "Hello this is work";
 	}
-
+	
 	@GET
 	@Path("/articleJSON")
 	@Produces({ "application/json" })
