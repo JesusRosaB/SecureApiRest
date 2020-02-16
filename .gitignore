@@ -1,1 +1,5 @@
 /build/
+.settings/org.eclipse.wst.common.project.facet.core.xml
+.classpath
+src/log4j.properties
+src/log4j.properties

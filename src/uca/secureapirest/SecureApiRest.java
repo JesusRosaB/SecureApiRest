@@ -37,7 +37,7 @@ public class SecureApiRest {
 		myArticle.setOid("0000-0000-0002");
 		myArticle.setAutor("Alberto Gil Diaz");
 		myArticle.setDescription("Articulo 2");
-		myMap.put("art2", myArticle);
+		myMap.put("2", myArticle);
 
 		myArticle.setOid("0000-0000-0003");
 		myArticle.setAutor("Jesus Rosa");
