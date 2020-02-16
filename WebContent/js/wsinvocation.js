@@ -22,6 +22,7 @@ function getHello2() {
 	req.fail(function(res) {
 		alert("ERROR" + res.statusText);
 	});
+
 }
 
 function getArticleId(myId) {
@@ -29,10 +30,53 @@ function getArticleId(myId) {
 	$.ajax({
 		type : "GET",
 		url : myUrl,
-		dataType: "text",
-		data: myId,
+		dataType : "text",
+		data : myId,
 		success : function(data) {
 			$("#resGetHello").html(data);
+		},
+		error : function(res) {
+			$("#resGetHello").html(res);
+			// alert("ERROR " + res.statusText);
+		}
+
+	});
+}
+
+// JWT
+var mytoken = "";
+function getJWT() {
+	$.ajax({
+		type : "GET",
+		url : "http://localhost:8080/SecureApiRest/authenticateJWT",
+		headers : {
+			"username" : "restUser",
+			"password" : "restUser"
+		},
+		dataType : "json",
+		success : function(dat) {
+			mytoken = dat;
+			$("#resGetHello").html(dat);
+		},
+		error : function(res) {
+			alert("ERROR " + res.statusText);
+		}
+	});
+}
+
+function testJWT() {
+	$.ajax({
+		type : "POST",
+		url : "http://localhost:8080/SecureApiRest/testJWT",
+		// contentType: "text/plain",
+		headers : {
+			"token" : mytoken
+		},
+		contentType : "text/plain",
+		dataType : "text",
+		data : "Lupe",
+		success : function(dat) {
+			$("#resGetHello").html(dat);
 		},
 		error : function(res) {
 			alert("ERROR " + res.statusText);
