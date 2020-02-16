@@ -172,8 +172,8 @@ public class SecureApiRest {
 	public Response getArticleStatus(@PathParam("article") String key) {
 		if (myMap.get(key) == null) {
 			logger.info("error " + Status.NOT_FOUND.getStatusCode());
-			return Response.status(Status.NOT_FOUND.getStatusCode()).entity((String) "The article " + key + " does not exist")
-					.build();
+			return Response.status(Status.NOT_FOUND.getStatusCode())
+					.entity((String) "The article " + key + " does not exist").build();
 		} else {
 			logger.info("ok " + Status.ACCEPTED.getStatusCode());
 			return Response.status(Status.ACCEPTED.getStatusCode()).entity((String) getArticle(key)).build();
@@ -190,7 +190,7 @@ public class SecureApiRest {
 	// JWT -----
 	@Path("/authenticateJWT")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response authenticateCredentials(@HeaderParam("username") String username,
 			@HeaderParam("password") String password)
 			throws JsonGenerationException, JsonMappingException, IOException {
@@ -226,7 +226,6 @@ public class SecureApiRest {
 		}
 		user.setApikey(jwt); // SET TOKEN
 		return Response.status(Status.ACCEPTED.getStatusCode()).entity(jwt).build();
-		// return Response.status(200).entity(jwt).build();
 	}
 
 	@POST

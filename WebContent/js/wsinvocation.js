@@ -121,10 +121,10 @@ function getJWT() {
 			"username" : "restUser",
 			"password" : "restUser"
 		},
-		dataType : "json",
+		dataType : "text",
 		success : function(dat) {
 			mytoken = dat;
-			$("#resGetHello").html(dat);
+			$("#resJWT").html(dat);
 		},
 		error : function(res) {
 			alert("ERROR " + res.statusText);
