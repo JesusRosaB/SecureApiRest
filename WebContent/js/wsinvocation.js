@@ -27,9 +27,76 @@ function getHello2() {
 
 function getArticleId(myId) {
 	var myUrl = "http://localhost:8080/SecureApiRest/getArticle/" + myId;
+	console.log(myUrl);
 	$.ajax({
 		type : "GET",
 		url : myUrl,
+		dataType : "text",
+		data : myId,
+		success : function(data) {
+			$("#resGetHello").html(data);
+		},
+		error : function(res) {
+			$("#resGetHello").html(res);
+			// alert("ERROR " + res.statusText);
+		}
+
+	});
+}
+
+function deleteArticle(myId) {
+	var myUrl = "http://localhost:8080/SecureApiRest/deleteArticle/" + myId;
+	console.log(myUrl);
+	$.ajax({
+		type : "DELETE",
+		url : myUrl,
+		dataType : "text",
+		data : myId,
+		success : function(data) {
+			$("#resGetHello").html(data);
+		},
+		error : function(res) {
+			$("#resGetHello").html(res);
+			// alert("ERROR " + res.statusText);
+		}
+
+	});
+}
+
+function createArticle(autor, description, oid) {
+	var myUrl = "http://localhost:8080/SecureApiRest/myArticleForm";
+	console.log(myUrl);
+	$.ajax({
+		type : "POST",
+		url : myUrl,
+		headers : {
+			"autor" : autor,
+			"description" : description,
+			"oid" : oid
+		},
+		dataType : "json",
+		success : function(data) {
+			$("#resGetHello").html(data);
+		},
+		error : function(res) {
+			$("#resGetHello").html(res);
+			// alert("ERROR " + res.statusText);
+		}
+
+	});
+}
+
+function modifyArticle(myId, autor, description, oid) {
+	var myUrl = "http://localhost:8080/SecureApiRest/modifyArticle/" + myId;
+	console.log(myUrl);
+	$.ajax({
+		type : "GET",
+		url : myUrl,
+		headers : {
+			"autor" : autor,
+			"description" : description,
+			"oid" : oid
+		},
 		dataType : "text",
 		data : myId,
 		success : function(data) {
