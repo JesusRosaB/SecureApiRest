@@ -1,7 +1,7 @@
 function getHello() {
 	$.ajax({
 		type : "GET",
-		url : "http://localhost:8080/SecureApiRest/hello",
+		url : "http://localhost:8080/SecureApiRest/SSD/hello",
 		success : function(data) {
 			$("#resGetHello").html(data);
 		},
@@ -14,7 +14,7 @@ function getHello() {
 function getHello2() {
 	var req = $.ajax({
 		type : "GET",
-		url : "http://localhost:8080/SecureApiRest/hello",
+		url : "http://localhost:8080/SecureApiRest/SSD/hello",
 	});
 	req.done(function(data) {
 		$("#resGetHello").html(data);
@@ -26,7 +26,7 @@ function getHello2() {
 }
 
 function getArticleId(myId) {
-	var myUrl = "http://localhost:8080/SecureApiRest/getArticle/" + myId;
+	var myUrl = "http://localhost:8080/SecureApiRest/SSD/getArticle/" + myId;
 	console.log(myUrl);
 	$.ajax({
 		type : "GET",
@@ -45,7 +45,7 @@ function getArticleId(myId) {
 }
 
 function deleteArticle(myId) {
-	var myUrl = "http://localhost:8080/SecureApiRest/deleteArticle/" + myId;
+	var myUrl = "http://localhost:8080/SecureApiRest/SSD/deleteArticle/" + myId;
 	console.log(myUrl);
 	$.ajax({
 		type : "DELETE",
@@ -63,8 +63,8 @@ function deleteArticle(myId) {
 	});
 }
 
-function createArticle(autor, description, oid) {
-	var myUrl = "http://localhost:8080/SecureApiRest/myArticleForm";
+function createArticle(myId, autor, description, oid) {
+	var myUrl = "http://localhost:8080/SecureApiRest/SSD/myArticleFormJs/" + myId;
 	console.log(myUrl);
 	$.ajax({
 		type : "POST",
@@ -74,7 +74,8 @@ function createArticle(autor, description, oid) {
 			"description" : description,
 			"oid" : oid
 		},
-		dataType : "json",
+		dataType : "text",
+		data : myId,
 		success : function(data) {
 			$("#resGetHello").html(data);
 		},
@@ -87,10 +88,10 @@ function createArticle(autor, description, oid) {
 }
 
 function modifyArticle(myId, autor, description, oid) {
-	var myUrl = "http://localhost:8080/SecureApiRest/modifyArticle/" + myId;
+	var myUrl = "http://localhost:8080/SecureApiRest/SSD/modifyArticleJs/" + myId;
 	console.log(myUrl);
 	$.ajax({
-		type : "GET",
+		type : "PUT",
 		url : myUrl,
 		headers : {
 			"autor" : autor,
@@ -115,7 +116,7 @@ var mytoken = "";
 function getJWT() {
 	$.ajax({
 		type : "GET",
-		url : "http://localhost:8080/SecureApiRest/authenticateJWT",
+		url : "http://localhost:8080/SecureApiRest/SSD/authenticateJWT",
 		headers : {
 			"username" : "restUser",
 			"password" : "restUser"
@@ -134,7 +135,7 @@ function getJWT() {
 function testJWT() {
 	$.ajax({
 		type : "POST",
-		url : "http://localhost:8080/SecureApiRest/testJWT",
+		url : "http://localhost:8080/SecureApiRest/SSD/testJWT",
 		// contentType: "text/plain",
 		headers : {
 			"token" : mytoken

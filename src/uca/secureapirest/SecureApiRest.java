@@ -110,6 +110,41 @@ public class SecureApiRest {
 		return myArticle;
 	}
 
+	@POST
+	@Path("/myArticleFormJs/{article}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String articleToTextJs(@PathParam("article") String key, @HeaderParam("autor") String myAutor,
+			@HeaderParam("description") String myDescription, @HeaderParam("oid") String myOid) {
+
+		if (myMap.get(key) == null) {
+			Article myArticle = new Article();
+			myArticle.setAutor(myAutor);
+			myArticle.setDescription(myDescription);
+			myArticle.setOid(myOid);
+			myMap.put(key, myArticle);
+			return "Congratulations the article " + key + " has been successfully registered";
+		} else {
+			return "An article with the key " + key + " already exist";
+		}
+	}
+
+	@PUT
+	@Path("/modifyArticleJs/{article}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String modifyArticleJs(@PathParam("article") String key, @HeaderParam("autor") String myAutor,
+			@HeaderParam("description") String myDescription, @HeaderParam("oid") String myOid) {
+		if (myMap.get(key) != null) {
+			Article myArticle = new Article();
+			myArticle.setAutor(myAutor);
+			myArticle.setDescription(myDescription);
+			myArticle.setOid(myOid);
+			myMap.put(key, myArticle);
+			return "Congratulations the article " + key + " has been successfully modified";
+		} else {
+			return "An article with the key " + key + " does not exist";
+		}
+	}
+
 	@PUT
 	@Path("/modifyArticle/{article}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -123,8 +158,12 @@ public class SecureApiRest {
 	@Path("/deleteArticle/{article}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String deleteImportantDate(@PathParam("article") String key) {
-		myMap.remove(key);
-		return "Article " + key + " deleted!";
+		if (myMap.get(key) == null) {
+			return "Article " + key + " does not exist!";
+		} else {
+			myMap.remove(key);
+			return "Article " + key + " deleted!";
+		}
 	}
 
 	@GET
@@ -133,7 +172,7 @@ public class SecureApiRest {
 	public Response getArticleStatus(@PathParam("article") String key) {
 		if (myMap.get(key) == null) {
 			logger.info("error " + Status.NOT_FOUND.getStatusCode());
-			return Response.status(Status.NOT_FOUND.getStatusCode()).entity((String) "The article does not exist")
+			return Response.status(Status.NOT_FOUND.getStatusCode()).entity((String) "The article " + key + " does not exist")
 					.build();
 		} else {
 			logger.info("ok " + Status.ACCEPTED.getStatusCode());
@@ -187,9 +226,9 @@ public class SecureApiRest {
 		}
 		user.setApikey(jwt); // SET TOKEN
 		return Response.status(Status.ACCEPTED.getStatusCode()).entity(jwt).build();
-		//return Response.status(200).entity(jwt).build();
+		// return Response.status(200).entity(jwt).build();
 	}
-	
+
 	@POST
 	@Path("/testJWT")
 	@Consumes(MediaType.TEXT_PLAIN)
