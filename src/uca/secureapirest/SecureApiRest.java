@@ -3,6 +3,7 @@ package uca.secureapirest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -33,6 +34,7 @@ import org.jose4j.lang.JoseException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import uca.secureapirest.User;
 import uca.secureapirest.Article;
 
 @Path("/")
@@ -232,7 +234,7 @@ public class SecureApiRest {
 	@Path("/testJWT")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response testJWT(@HeaderParam("token") String token, String myName)
+	public Response testJWT(@HeaderParam("token") String token)
 			throws JsonGenerationException, JsonMappingException, IOException {
 
 		JsonWebKey jwk = myJwk;
@@ -247,8 +249,85 @@ public class SecureApiRest {
 		} catch (InvalidJwtException e) {
 			return Response.status(Status.FORBIDDEN.getStatusCode()).entity("Forbidden").build();
 		}
-		String sayHello = "Hello " + myName;
+		String sayHello = "Your token is correct";
 		return Response.status(200).entity(sayHello).build();
+	}
+
+	private static Map<String, User> myUsersMap = new HashMap<>();
+	static {
+		User myUsers = new User();
+		myUsers.setUser("user0");
+		myUsers.setPassword("user0pass");
+		myUsers.setApikey("user0apikey");
+
+		myUsersMap.put("user0", myUsers);
+
+		myUsers.setUser("user2");
+		myUsers.setPassword("user2pass");
+		myUsers.setApikey("user2apikey");
+
+		myUsersMap.put("user2", myUsers);
+
+		myUsers.setUser("user3");
+		myUsers.setPassword("user3pass");
+		myUsers.setApikey("user3apikey");
+
+		myUsersMap.put("user3", myUsers);
+
+		myUsers.setUser("user4");
+		myUsers.setPassword("user4pass");
+		myUsers.setApikey("user4apikey");
+
+		myUsersMap.put("user4", myUsers);
+	}
+
+	@POST
+	@Path("/apikey")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getApiKey(User myUser) {
+		if ((myUsersMap.get(myUser.getUser()).getUser()) == null) {
+			UUID apikey = UUID.randomUUID();
+			User newUser = new User();
+			newUser.setUser(myUser.getUser());
+			newUser.setPassword(myUser.getPassword());
+			newUser.setApikey(apikey.toString());
+			myUsersMap.put(newUser.getUser(), newUser);
+			return apikey.toString();
+		} else {
+			return null;
+		}
+	}
+
+	@POST
+	@Path("/apikeyJs")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getApiKeyJs(@HeaderParam("username") String username, @HeaderParam("password") String password) {
+		if (username != null) {
+			UUID apikey = UUID.randomUUID();
+			User newUser = new User();
+			newUser.setUser(username);
+			newUser.setPassword(password);
+			newUser.setApikey(apikey.toString());
+			myUsersMap.put(newUser.getUser(), newUser);
+			return apikey.toString();
+		} else {
+			return null;
+		}
+	}
+
+	@POST
+	@Path("/testApikey")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String testing(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("apikey") String apikey) {
+		if (username != null) {
+			if (apikey != null) {
+				return "GRANTED";
+			}
+		}
+		return "Denied";
 	}
 
 }

@@ -34,10 +34,10 @@ function getArticleId(myId) {
 		dataType : "text",
 		data : myId,
 		success : function(data) {
-			$("#resGetHello").html(data);
+			$("#resArticle").html(data);
 		},
 		error : function(res) {
-			$("#resGetHello").html(res);
+			$("#resArticle").html(res);
 			// alert("ERROR " + res.statusText);
 		}
 
@@ -53,10 +53,10 @@ function deleteArticle(myId) {
 		dataType : "text",
 		data : myId,
 		success : function(data) {
-			$("#resGetHello").html(data);
+			$("#resArticle").html(data);
 		},
 		error : function(res) {
-			$("#resGetHello").html(res);
+			$("#resArticle").html(res);
 			// alert("ERROR " + res.statusText);
 		}
 
@@ -77,10 +77,10 @@ function createArticle(myId, autor, description, oid) {
 		dataType : "text",
 		data : myId,
 		success : function(data) {
-			$("#resGetHello").html(data);
+			$("#resArticle").html(data);
 		},
 		error : function(res) {
-			$("#resGetHello").html(res);
+			$("#resArticle").html(res);
 			// alert("ERROR " + res.statusText);
 		}
 
@@ -101,10 +101,10 @@ function modifyArticle(myId, autor, description, oid) {
 		dataType : "text",
 		data : myId,
 		success : function(data) {
-			$("#resGetHello").html(data);
+			$("#resArticle").html(data);
 		},
 		error : function(res) {
-			$("#resGetHello").html(res);
+			$("#resArticle").html(res);
 			// alert("ERROR " + res.statusText);
 		}
 
@@ -113,13 +113,13 @@ function modifyArticle(myId, autor, description, oid) {
 
 // JWT
 var mytoken = "";
-function getJWT() {
+function getJWT(username, password) {
 	$.ajax({
 		type : "GET",
 		url : "http://localhost:8080/SecureApiRest/SSD/authenticateJWT",
 		headers : {
-			"username" : "restUser",
-			"password" : "restUser"
+			"username" : username,
+			"password" : password
 		},
 		dataType : "text",
 		success : function(dat) {
@@ -132,7 +132,7 @@ function getJWT() {
 	});
 }
 
-function testJWT() {
+function testJWT(mytoken) {
 	$.ajax({
 		type : "POST",
 		url : "http://localhost:8080/SecureApiRest/SSD/testJWT",
@@ -142,9 +142,48 @@ function testJWT() {
 		},
 		contentType : "text/plain",
 		dataType : "text",
-		data : "Lupe",
 		success : function(dat) {
-			$("#resGetHello").html(dat);
+			$("#resJWT").html(dat);
+		},
+		error : function(res) {
+			alert("ERROR " + res.statusText);
+		}
+	});
+}
+
+//apiKey
+var myapikey = "";
+function getApiKey(username, password) {
+	$.ajax({
+		type : "POST",
+		url : "http://localhost:8080/SecureApiRest/SSD/apikeyJs",
+		headers : {
+			"username" : username,
+			"password" : password
+		},
+		dataType : "text",
+		success : function(dat) {
+			myapikey = dat;
+			$("#resApiKey").html(dat);
+		},
+		error : function(res) {
+			alert("ERROR " + res.statusText);
+		}
+	});
+}
+
+function testApiKey(username, password, apikey) {
+	$.ajax({
+		type : "POST",
+		url : "http://localhost:8080/SecureApiRest/SSD/testApikey",
+		headers : {
+			"username" : username,
+			"password" : password,
+			"apikey" : apikey
+		},
+		dataType : "text",
+		success : function(dat) {
+			$("#resApiKey").html(dat);
 		},
 		error : function(res) {
 			alert("ERROR " + res.statusText);
