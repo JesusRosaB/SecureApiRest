@@ -1,6 +1,11 @@
 var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 var regexUsername = /^(?=.{4,20}$)[a-z0-9]{0,1}([a-z0-9._-][a-z0-9]+)*[a-z0-9.-_]{0,1}$/i;
 var regexApiKey = /^[a-z0-9]{8}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{12}$/i;
+var regexToken = /^[a-zA-Z0-9-_.]{550,570}$/i;
+var regexAutor = /^[a-zA-Z0-9]{5,50}$/i;
+var regexDescription = /^[a-zA-Z0-9]{10,500}$/i;
+var regexOID = /^[\s\S]{5,50}$/i;
+var regexArticleId = /^[a-zA-Z0-9]{2,20}$/i;
 
 function getHello() {
 	$.ajax({
@@ -30,6 +35,9 @@ function getHello2() {
 }
 
 function getArticleId(myId) {
+	if(regexArticleId.test(myId)){
+	} else
+		alert("El id del articulo no tiene un formato correcto, por favor, introduzca un id de articulo valido");
 	var myUrl = "http://localhost:8080/SecureApiRest/SSD/getArticle/" + myId;
 	console.log(myUrl);
 	$.ajax({
@@ -49,6 +57,9 @@ function getArticleId(myId) {
 }
 
 function deleteArticle(myId) {
+	if(regexArticleId.test(myId)){
+	} else
+		alert("El id del articulo no tiene un formato correcto, por favor, introduzca un id de articulo valido");
 	var myUrl = "http://localhost:8080/SecureApiRest/SSD/deleteArticle/" + myId;
 	console.log(myUrl);
 	$.ajax({
@@ -68,6 +79,18 @@ function deleteArticle(myId) {
 }
 
 function createArticle(myId, autor, description, oid) {
+	if(regexArticleId.test(myId)){
+	} else
+		alert("El id del articulo no tiene un formato correcto, por favor, introduzca un id de articulo valido");
+	if(regexAutor.test(autor)){
+	} else
+		alert("El autor no tiene un formato correcto, por favor, introduzca un autor valido");
+	if(regexDescription.test(description)){
+	} else
+		alert("La descripcion no tiene un formato correcto, por favor, introduzca una descripcion valida");
+	if(regexOID.test(oid)){
+	} else
+		alert("El OID del articulo no tiene un formato correcto, por favor, introduzca un OID de articulo valido");
 	var myUrl = "http://localhost:8080/SecureApiRest/SSD/myArticleFormJs/" + myId;
 	console.log(myUrl);
 	$.ajax({
@@ -92,6 +115,18 @@ function createArticle(myId, autor, description, oid) {
 }
 
 function modifyArticle(myId, autor, description, oid) {
+	if(regexArticleId.test(myId)){
+	} else
+		alert("El id del articulo no tiene un formato correcto, por favor, introduzca un id de articulo valido");
+	if(regexAutor.test(autor)){
+	} else
+		alert("El autor no tiene un formato correcto, por favor, introduzca un autor valido");
+	if(regexDescription.test(description)){
+	} else
+		alert("La descripcion no tiene un formato correcto, por favor, introduzca una descripcion valida");
+	if(regexOID.test(oid)){
+	} else
+		alert("El OID del articulo no tiene un formato correcto, por favor, introduzca un OID de articulo valido");
 	var myUrl = "http://localhost:8080/SecureApiRest/SSD/modifyArticleJs/" + myId;
 	console.log(myUrl);
 	$.ajax({
@@ -144,6 +179,9 @@ function getJWT(username, password) {
 }
 
 function testJWT(mytoken) {
+	if(regexToken.test(mytoken)){
+	} else
+		alert("El Token de usuario es incorrecto, por favor, introduzca un token de usuario valido");
 	$.ajax({
 		type : "POST",
 		url : "http://localhost:8080/SecureApiRest/SSD/testJWT",
@@ -249,6 +287,9 @@ function getJWE(username, password) {
 }
 
 function testJWE(mytoken) {
+	if(regexToken.test(mytoken)){
+	} else
+		alert("El Token de usuario es incorrecto, por favor, introduzca un token de usuario valido");
 	$.ajax({
 		type : "POST",
 		url : "http://localhost:8080/SecureApiRest/SSD/testJWE",
