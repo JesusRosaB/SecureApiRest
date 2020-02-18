@@ -260,27 +260,27 @@ public class SecureApiRest {
 	private static Map<String, User> myUsersMap = new HashMap<>();
 	static {
 		User myUsers = new User();
-		myUsers.setUser("user0");
-		myUsers.setPassword("user0pass");
-		myUsers.setApikey("user0apikey");
+		myUsers.setUser("user1");
+		myUsers.setPassword("user1pass");
+		myUsers.setApikey("2264d43c-b152-48a0-96b5-c535aa9ee64a");
 
-		myUsersMap.put("user0", myUsers);
+		myUsersMap.put("user1", myUsers);
 
 		myUsers.setUser("user2");
 		myUsers.setPassword("user2pass");
-		myUsers.setApikey("user2apikey");
+		myUsers.setApikey("45cc0a9d-dad2-458b-bfb7-94401a72a214");
 
 		myUsersMap.put("user2", myUsers);
 
 		myUsers.setUser("user3");
 		myUsers.setPassword("user3pass");
-		myUsers.setApikey("user3apikey");
+		myUsers.setApikey("14b05119-b255-464a-95c1-2c75bf54eb9d");
 
 		myUsersMap.put("user3", myUsers);
 
 		myUsers.setUser("user4");
 		myUsers.setPassword("user4pass");
-		myUsers.setApikey("user4apikey");
+		myUsers.setApikey("06441cc9-d8bb-4686-b2eb-38fc737eb81d");
 
 		myUsersMap.put("user4", myUsers);
 	}
