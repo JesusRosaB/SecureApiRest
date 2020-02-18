@@ -20,7 +20,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
+import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
+import org.jose4j.jwe.JsonWebEncryption;
+import org.jose4j.jwe.KeyManagementAlgorithmIdentifiers;
 import org.jose4j.jwk.JsonWebKey;
+import org.jose4j.jwk.JsonWebKey.Factory;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwk.RsaJwkGenerator;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -321,13 +325,91 @@ public class SecureApiRest {
 	@Path("/testApikey")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String testing(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("apikey") String apikey) {
+	public String testing(@HeaderParam("username") String username, @HeaderParam("password") String password,
+			@HeaderParam("apikey") String apikey) {
 		if (username != null) {
 			if (apikey != null) {
 				return "GRANTED";
 			}
 		}
 		return "Denied";
+	}
+
+	static JsonWebKey jwKey = null;
+	static {
+		// Setting up Direct Symmetric Encryption and Decryption
+		String jwkJson = "{\"kty\":\"oct\",\"k\":\"9d6722d6-b45c-4dcb-bd73-2e057c44eb93-928390\"}";
+		try {
+			new JsonWebKey.Factory();
+			jwKey = Factory.newJwk(jwkJson);
+		} catch (JoseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Path("/authenticateJWE")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response authenticateCredentialsJWE(@HeaderParam("username") String username,
+			@HeaderParam("password") String password)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		User user = new User();
+		user.setUser(username);
+		user.setPassword(password);
+		JwtClaims claims = new JwtClaims();
+		claims.setIssuer("uca");
+		claims.setExpirationTimeMinutesInTheFuture(10);
+		claims.setGeneratedJwtId();
+		claims.setIssuedAtToNow();
+		claims.setNotBeforeMinutesInThePast(2);
+		claims.setSubject(user.getUser());
+		claims.setStringListClaim("roles", "admin");
+		JsonWebSignature jws = new JsonWebSignature();
+		jws.setPayload(claims.toJson());
+		jws.setKeyIdHeaderValue(jwKey.getKeyId());
+		jws.setKey(jwKey.getKey());
+		jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
+		String jwt = null;
+		try {
+			jwt = jws.getCompactSerialization();
+		} catch (JoseException e) {
+			e.printStackTrace();
+		}
+		JsonWebEncryption jwe = new JsonWebEncryption();
+		jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.DIRECT);
+		jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+		jwe.setKey(jwKey.getKey());
+		jwe.setKeyIdHeaderValue(jwKey.getKeyId());
+		jwe.setContentTypeHeaderValue("JWT");
+		jwe.setPayload(jwt);
+		String jweSerialization = null;
+		try {
+			jweSerialization = jwe.getCompactSerialization();
+		} catch (JoseException e) {
+			e.printStackTrace();
+		}
+		return Response.status(200).entity(jweSerialization).build();
+	}
+
+	@POST
+	@Path("/testJWE")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response testJWE(@HeaderParam("token") String token)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		JwtConsumer jwtConsumer = new JwtConsumerBuilder().setRequireExpirationTime().setAllowedClockSkewInSeconds(30)
+				.setRequireSubject().setExpectedIssuer("uca").setDecryptionKey(jwKey.getKey())
+				.setVerificationKey(jwKey.getKey()).build();
+		try {
+			// Validate the JWT and process it to the Claims
+			JwtClaims jwtClaims = jwtConsumer.processToClaims(token);
+			System.out.println("JWE validation succeeded! " + jwtClaims);
+		} catch (InvalidJwtException e) {
+			System.out.println("JWE is Invalid: " + e);
+			return Response.status(Status.FORBIDDEN.getStatusCode()).entity("Forbidden").build();
+		}
+		String sayHello = "Your token is correct";
+		return Response.status(200).entity(sayHello).build();
 	}
 
 }

@@ -50,7 +50,7 @@
 
 	<form>
 		Username: <input type="text" id="username"> 
-		Password: <input type="text" id="password">
+		Password: <input type="password" id="password">
 	</form>
 	<br>
 	
@@ -69,12 +69,36 @@
 		onclick="testJWT($('#resJWT').val())" />
 		
 	<br><br><hr>	
+	
+	<h3>JWE</h3>
+
+	<form>
+		Username: <input type="text" id="usernameJWE"> 
+		Password: <input type="password" id="passwordJWE">
+	</form>
+	<br>
+	
+	<input type="button" value="Get JWE" onclick="getJWE($('#usernameJWE').val(), $('#passwordJWE').val())" />
+	
+	<br>
+	
+	<h4>JWE Token</h4>
+
+	<textarea id="resJWE" rows="4" cols="150">
+	</textarea>
+
+	<br><br>
+
+	<input type="button" value="Test JWE"
+		onclick="testJWE($('#resJWE').val())" />
+		
+	<br><br><hr>
 		
 	<h3>ApiKey</h3>
 
 	<form>
 		Username: <input type="text" id="usernameapikey"> 
-		Password: <input type="text" id="passwordapikey">
+		Password: <input type="password" id="passwordapikey">
 	</form>
 	<br>
 	
