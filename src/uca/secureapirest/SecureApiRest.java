@@ -308,7 +308,7 @@ public class SecureApiRest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getApiKeyJs(@HeaderParam("username") String username, @HeaderParam("password") String password) {
-		if (username != null) {
+		if (myUsersMap.get(username) == null) {
 			UUID apikey = UUID.randomUUID();
 			User newUser = new User();
 			newUser.setUser(username);
@@ -317,7 +317,7 @@ public class SecureApiRest {
 			myUsersMap.put(newUser.getUser(), newUser);
 			return apikey.toString();
 		} else {
-			return null;
+			return "El usuario " + username + " ya tiene una ApiKey";
 		}
 	}
 
@@ -325,14 +325,13 @@ public class SecureApiRest {
 	@Path("/testApikey")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String testing(@HeaderParam("username") String username, @HeaderParam("password") String password,
-			@HeaderParam("apikey") String apikey) {
-		if (username != null) {
-			if (apikey != null) {
-				return "GRANTED";
-			}
+	public String testing(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("apikey") String apikey) {
+		if (myUsersMap.get(username) != null) {
+			if (myUsersMap.get(username).getApikey().equals(apikey)) {
+				return "Access GRANTED";
+			} 
 		}
-		return "Denied";
+		return "Access DENIED";
 	}
 
 	static JsonWebKey jwKey = null;

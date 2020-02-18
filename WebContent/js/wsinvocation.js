@@ -239,7 +239,7 @@ function getApiKey(username, password) {
 			dataType : "text",
 			success : function(dat) {
 				myapikey = dat;
-				$("#resApiKey").html(dat);
+				$("#inputApiKey").html(dat);
 			},
 			error : function(res) {
 				alert("ERROR " + res.statusText);
@@ -276,7 +276,7 @@ function testApiKey(username, password, apikey) {
 				$("#resApiKey").html(dat);
 			},
 			error : function(res) {
-				alert("ERROR " + res.statusText);
+				$("#resApiKey").html(dat);
 			}
 		});
 	} else {

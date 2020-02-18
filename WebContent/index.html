@@ -108,13 +108,17 @@
 	
 	<h4>User ApiKey</h4>
 
-	<textarea id="resApiKey" rows="1" cols="40">
+	<textarea id="inputApiKey" rows="1" cols="40">
 	</textarea>
-
-	<br><br>
+	
+	<br>
+	
+	<h4 id="resApiKey"></h4>
+	
+	<br>
 
 	<input type="button" value="Test ApiKey"
-		onclick="testApiKey($('#usernameapikey').val(), $('#passwordapikey').val(), $('#resApiKey').val())" />
+		onclick="testApiKey($('#usernameapikey').val(), $('#passwordapikey').val(), $('#inputApiKey').val())" />
 
 </body>
 </html>
