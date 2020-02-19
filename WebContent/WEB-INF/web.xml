@@ -50,7 +50,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	<filter>
 		<filter-name>CorsFilter</filter-name>
 		<filter-class>uca.secureapirest.CorsFilter</filter-class>
-		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+		<!-- <filter-class>org.apache.catalina.filters.CorsFilter</filter-class> -->
 	</filter>
 
 	<filter-mapping>
@@ -63,21 +63,17 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		<web-resource-collection>
 			<web-resource-name>Hello REST Service</web-resource-name>
 			<url-pattern>/*</url-pattern>
-			<http-method>PUT</http-method>
+			<!-- <http-method>PUT</http-method>
 			<http-method>POST</http-method>
-			<http-method>DELETE</http-method>
+			<http-method>DELETE</http-method> -->
 		</web-resource-collection>
 
 		<auth-constraint>
 			<role-name>digestRestUser</role-name>
 		</auth-constraint>
 
-		<!-- <user-data-constraint> <transport-guarantee> CONFIDENTIAL </transport-guarantee> 
-			</user-data-constraint> -->
-
-		<!-- <auth-constraint> <role-name>basicRestUser</role-name> </auth-constraint> 
-			<user-data-constraint> <transport-guarantee>CONFIDENTIAL</transport-guarantee> 
-			</user-data-constraint> -->
+		<user-data-constraint> <transport-guarantee> CONFIDENTIAL </transport-guarantee> 
+			</user-data-constraint>
 
 	</security-constraint>
 

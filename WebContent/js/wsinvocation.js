@@ -10,7 +10,7 @@ var regexArticleId = /^[a-zA-Z0-9]{2,20}$/i;
 function getHello() {
 	$.ajax({
 		type : "GET",
-		url : "http://localhost:8080/SecureApiRest/SSD/hello",
+		url : "https://localhost:8443/SecureApiRest/SSD/hello",
 		success : function(data) {
 			$("#resGetHello").html(data);
 		},
@@ -23,7 +23,7 @@ function getHello() {
 function getHello2() {
 	var req = $.ajax({
 		type : "GET",
-		url : "http://localhost:8080/SecureApiRest/SSD/hello",
+		url : "https://localhost:8443/SecureApiRest/SSD/hello",
 	});
 	req.done(function(data) {
 		$("#resGetHello").html(data);
@@ -36,7 +36,7 @@ function getHello2() {
 
 function getArticleId(myId) {
 	if(regexArticleId.test(myId)){
-		var myUrl = "http://localhost:8080/SecureApiRest/SSD/getArticle/" + myId;
+		var myUrl = "https://localhost:8443/SecureApiRest/SSD/getArticle/" + myId;
 		console.log(myUrl);
 		$.ajax({
 			type : "GET",
@@ -58,7 +58,7 @@ function getArticleId(myId) {
 
 function deleteArticle(myId) {
 	if(regexArticleId.test(myId)){
-		var myUrl = "http://localhost:8080/SecureApiRest/SSD/deleteArticle/" + myId;
+		var myUrl = "https://localhost:8443/SecureApiRest/SSD/deleteArticle/" + myId;
 		console.log(myUrl);
 		$.ajax({
 			type : "DELETE",
@@ -94,7 +94,7 @@ function createArticle(myId, autor, description, oid) {
 	
 	if (regexArticleId.test(myId) && regexAutor.test(autor)
 			&& regexDescription.test(description) && regexOID.test(oid)) {
-		var myUrl = "http://localhost:8080/SecureApiRest/SSD/myArticleFormJs/" + myId;
+		var myUrl = "https://localhost:8443/SecureApiRest/SSD/myArticleFormJs/" + myId;
 		console.log(myUrl);
 		$.ajax({
 			type : "POST",
@@ -136,7 +136,7 @@ function modifyArticle(myId, autor, description, oid) {
 	
 	if (regexArticleId.test(myId) && regexAutor.test(autor)
 			&& regexDescription.test(description) && regexOID.test(oid)) {
-		var myUrl = "http://localhost:8080/SecureApiRest/SSD/modifyArticleJs/" + myId;
+		var myUrl = "https://localhost:8443/SecureApiRest/SSD/modifyArticleJs/" + myId;
 		console.log(myUrl);
 		$.ajax({
 			type : "PUT",
@@ -176,7 +176,7 @@ function getJWT(username, password) {
 	if (regexUsername.test(username) && regexPassword.test(password)) {
 		$.ajax({
 			type : "GET",
-			url : "http://localhost:8080/SecureApiRest/SSD/authenticateJWT",
+			url : "https://localhost:8443/SecureApiRest/SSD/authenticateJWT",
 			headers : {
 				"username" : username,
 				"password" : password
@@ -199,7 +199,7 @@ function testJWT(mytoken) {
 	if(regexToken.test(mytoken)){
 		$.ajax({
 			type : "POST",
-			url : "http://localhost:8080/SecureApiRest/SSD/testJWT",
+			url : "https://localhost:8443/SecureApiRest/SSD/testJWT",
 			// contentType: "text/plain",
 			headers : {
 				"token" : mytoken
@@ -231,7 +231,7 @@ function getApiKey(username, password) {
 	if (regexUsername.test(username) && regexPassword.test(password)) {
 		$.ajax({
 			type : "POST",
-			url : "http://localhost:8080/SecureApiRest/SSD/apikeyJs",
+			url : "https://localhost:8443/SecureApiRest/SSD/apikeyJs",
 			headers : {
 				"username" : username,
 				"password" : password
@@ -265,7 +265,7 @@ function testApiKey(username, password, apikey) {
 	if (regexUsername.test(username) && regexPassword.test(password) && regexApiKey.test(apikey)) {
 		$.ajax({
 			type : "POST",
-			url : "http://localhost:8080/SecureApiRest/SSD/testApikey",
+			url : "https://localhost:8443/SecureApiRest/SSD/testApikey",
 			headers : {
 				"username" : username,
 				"password" : password,
@@ -298,7 +298,7 @@ function getJWE(username, password) {
 	if (regexUsername.test(username) && regexPassword.test(password)) {
 		$.ajax({
 			type : "POST",
-			url : "http://localhost:8080/SecureApiRest/SSD/authenticateJWE",
+			url : "https://localhost:8443/SecureApiRest/SSD/authenticateJWE",
 			headers : {
 				"username" : username,
 				"password" : password
@@ -321,7 +321,7 @@ function testJWE(mytoken) {
 	if(regexToken.test(mytoken)){
 		$.ajax({
 			type : "POST",
-			url : "http://localhost:8080/SecureApiRest/SSD/testJWE",
+			url : "https://localhost:8443/SecureApiRest/SSD/testJWE",
 			// contentType: "text/plain",
 			headers : {
 				"token" : mytoken
