@@ -1,6 +1,7 @@
 package uca.secureapirest;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,10 +39,15 @@ import org.jose4j.lang.JoseException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import uca.secureapirest.User;
 import uca.secureapirest.Article;
 
 @Path("/")
+@Api(value = "/")
 public class SecureApiRest {
 
 	static Logger logger = Logger.getLogger(SecureApiRest.class);
@@ -88,6 +94,10 @@ public class SecureApiRest {
 	@Path("/hello")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Saluda",
+			notes = "Dice Hello this is work"
+			)
 	public String sayPlainTextHello() {
 		return "Hello this is work";
 	}
@@ -95,6 +105,10 @@ public class SecureApiRest {
 	@GET
 	@Path("/articleJSON")
 	@Produces({ "application/json" })
+	@ApiOperation(
+			value = "Devuelve un articulo",
+			notes = "Muestra todos los datos de un articulo en formato JSON"
+			)
 	public Article getArticle_JSON() {
 		Article oneArticle = new Article();
 		oneArticle.setAutor("Jesus Rosa Bilbao");
@@ -107,6 +121,10 @@ public class SecureApiRest {
 	@Path("/myArticleForm")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Registra un articulo",
+			notes = "Obtiene los datos de un formulario para registrar un articulo"
+			)
 	public Article articleToText(@FormParam("autor") String myAutor, @FormParam("description") String myDescription,
 			@FormParam("oid") String myOid) {
 		Article myArticle = new Article();
@@ -119,7 +137,12 @@ public class SecureApiRest {
 	@POST
 	@Path("/myArticleFormJs/{article}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String articleToTextJs(@PathParam("article") String key, @HeaderParam("autor") String myAutor,
+	@ApiOperation(
+			value = "Registra un articulo desde JS",
+			notes = "Obtiene los datos de un formulario para registrar un articulo desde JS"
+			)
+	public String articleToTextJs(@ApiParam(value = "ID del articulo", required = true)
+			@PathParam("article") String key, @HeaderParam("autor") String myAutor,
 			@HeaderParam("description") String myDescription, @HeaderParam("oid") String myOid) {
 
 		if (myMap.get(key) == null) {
@@ -137,6 +160,10 @@ public class SecureApiRest {
 	@PUT
 	@Path("/modifyArticleJs/{article}")
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Modifica un articulo desde JS",
+			notes = "Obtiene los datos de un formulario para modificar un articulo desde JS"
+			)
 	public String modifyArticleJs(@PathParam("article") String key, @HeaderParam("autor") String myAutor,
 			@HeaderParam("description") String myDescription, @HeaderParam("oid") String myOid) {
 		if (myMap.get(key) != null) {
@@ -155,6 +182,10 @@ public class SecureApiRest {
 	@Path("/modifyArticle/{article}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Modifica un articulo",
+			notes = "Obtiene los datos de un formulario para modificar un articulo"
+			)
 	public String modifyArticle(@PathParam("article") String key, Article myArticle) {
 		myMap.put(key, myArticle);
 		return "Article modified";
@@ -163,6 +194,10 @@ public class SecureApiRest {
 	@DELETE
 	@Path("/deleteArticle/{article}")
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Elimina un articulo",
+			notes = "Elimina un articulo a partir de su id"
+			)
 	public String deleteImportantDate(@PathParam("article") String key) {
 		if (myMap.get(key) == null) {
 			return "Article " + key + " does not exist!";
@@ -175,6 +210,10 @@ public class SecureApiRest {
 	@GET
 	@Path("/getArticle/{article}")
 	@Produces({ "application/json" })
+	@ApiOperation(
+			value = "Obtener un articulo por su ID",
+			notes = "Obtiene los datos de un articulo registrado por su ID"
+			)
 	public Response getArticleStatus(@PathParam("article") String key) {
 		if (myMap.get(key) == null) {
 			logger.info("error " + Status.NOT_FOUND.getStatusCode());
@@ -197,6 +236,10 @@ public class SecureApiRest {
 	@Path("/authenticateJWT")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Obtener token de autenticación",
+			notes = "Obtiene el token de autenticación para un usuario"
+			)
 	public Response authenticateCredentials(@HeaderParam("username") String username,
 			@HeaderParam("password") String password)
 			throws JsonGenerationException, JsonMappingException, IOException {
@@ -238,6 +281,10 @@ public class SecureApiRest {
 	@Path("/testJWT")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Comprobar el token de autenticación",
+			notes = "Comprueba el token de autenticación de un usuario"
+			)
 	public Response testJWT(@HeaderParam("token") String token)
 			throws JsonGenerationException, JsonMappingException, IOException {
 
@@ -289,6 +336,10 @@ public class SecureApiRest {
 	@Path("/apikey")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Obtener apikey de autenticación",
+			notes = "Obtiene la apikey de autenticación para un usuario"
+			)
 	public String getApiKey(User myUser) {
 		if ((myUsersMap.get(myUser.getUser()).getUser()) == null) {
 			UUID apikey = UUID.randomUUID();
@@ -307,6 +358,10 @@ public class SecureApiRest {
 	@Path("/apikeyJs")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Obtener apikey de autenticación desde JS",
+			notes = "Obtiene la apikey de autenticación para un usuario desde JS"
+			)
 	public String getApiKeyJs(@HeaderParam("username") String username, @HeaderParam("password") String password) {
 		if (myUsersMap.get(username) == null) {
 			UUID apikey = UUID.randomUUID();
@@ -325,6 +380,10 @@ public class SecureApiRest {
 	@Path("/testApikey")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Comprobar apikey de autenticación",
+			notes = "Comprueba la apikey de autenticación de un usuario"
+			)
 	public String testing(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("apikey") String apikey) {
 		if (myUsersMap.get(username) != null) {
 			if (myUsersMap.get(username).getApikey().equals(apikey)) {
@@ -349,6 +408,10 @@ public class SecureApiRest {
 	@Path("/authenticateJWE")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Obtener token encriptado de autenticación",
+			notes = "Obtiene el token encriptado de autenticación para un usuario"
+			)
 	public Response authenticateCredentialsJWE(@HeaderParam("username") String username,
 			@HeaderParam("password") String password)
 			throws JsonGenerationException, JsonMappingException, IOException {
@@ -394,6 +457,10 @@ public class SecureApiRest {
 	@Path("/testJWE")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Comprobar token de autenticación encriptado",
+			notes = "Comprueba el token encriptado de autenticación de un usuario"
+			)
 	public Response testJWE(@HeaderParam("token") String token)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		JwtConsumer jwtConsumer = new JwtConsumerBuilder().setRequireExpirationTime().setAllowedClockSkewInSeconds(30)
