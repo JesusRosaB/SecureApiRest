@@ -288,6 +288,36 @@ function testApiKey(username, password, apikey) {
 	}
 }
 
+function existApikey(username, password) {
+	if(regexUsername.test(username)){
+	} else
+		alert("El nombre de usuario es incorrecto, por favor, introduzca un nombre de usuario valido");
+	if(regexPassword.test(password)){
+	} else 
+	    alert("La contrasena debe contener Minimo 8 caracteres, Maximo 15, Al menos una letra mayuscula, " +
+	    		"Al menos una letra minuscula, Al menos un digito, No espacios en blanco, Al menos 1 caracter especial");
+	
+	if (regexUsername.test(username) && regexPassword.test(password)) {
+		$.ajax({
+			type : "POST",
+			url : "https://localhost:8443/SecureApiRest/SSD/existApikey",
+			headers : {
+				"username" : username,
+				"password" : password,
+			},
+			dataType : "text",
+			success : function(dat) {
+				$("#resApiKeyExist").html("El Usuario "+ username +" puede acceder");
+			},
+			error : function(res) {
+				$("#resApiKeyExist").html(username +" No puede acceder");
+			}
+		});
+	} else {
+		alert("No se puede comprobar el usuario, existe algun error, por favor revise todos los campos");
+	}
+}
+
 //JWE
 var mytoken = "";
 function getJWE(username, password) {
