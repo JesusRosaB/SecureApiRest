@@ -11,7 +11,6 @@
 	<h1>Secure API Rest</h1>
 
 	<input type="button" value="GET HELLO" onclick="getHello()" />
-
 	<input type="button" value="GET HELLO2" onclick="getHello2()" />
 
 	<h3 id="resGetHello"></h3>
@@ -19,27 +18,23 @@
 	<hr>
 
 	<h2>New articles</h2>
-	<form>
-		Autor: <input type="text" id="autor"> Description: <input
-			type="text" id="description"> Oid: <input type="text"
-			id="oid">
+	<form method="post">
+		Author: <input type="text" id="autor"> 
+		Description: <input	type="text" id="description"> 
+		Oid: <input type="text"	id="oid">
+
+		<h2>Articles</h2>
+
+		Article ID: <input type="text" id="articleid"> <br> 
+		<input type="button" value="Get Article" 
+			onclick="getArticleId($('#articleid').val())" /> 
+		<input type="button" value="Delete Article"	
+			onclick="deleteArticle($('#articleid').val())" />
+		<input type="button" value="Create Article"	
+			onclick="createArticle($('#articleid').val(), $('#autor').val(), $('#description').val(), $('#oid').val())" />
+		<input type="button" value="Modify Article"	
+			onclick="modifyArticle($('#articleid').val(), $('#autor').val(), $('#description').val(), $('#oid').val())" />
 	</form>
-
-	<h2>Articles</h2>
-	<form>
-		Article ID: <input type="text" id="articleid">
-	</form>
-
-	<br>
-	<input type="button" value="Get Article"
-		onclick="getArticleId($('#articleid').val())" />
-	<input type="button" value="Delete Article"
-		onclick="deleteArticle($('#articleid').val())" />
-	<input type="button" value="Create Article"
-		onclick="createArticle($('#articleid').val(), $('#autor').val(), $('#description').val(), $('#oid').val())" />
-	<input type="button" value="Modify Article"
-		onclick="modifyArticle($('#articleid').val(), $('#autor').val(), $('#description').val(), $('#oid').val())" />
-
 	<br>
 
 	<h3 id="resArticle"></h3>
@@ -53,23 +48,26 @@
 		Password: <input type="password" id="password">
 	</form>
 	<br>
-	
-	<input type="button" value="Get JWT" onclick="getJWT($('#username').val(), $('#password').val())" />
-	
+
+	<input type="button" value="Get JWT"
+		onclick="getJWT($('#username').val(), $('#password').val())" />
+
 	<br>
-	
+
 	<h4>JWT Token</h4>
 
 	<textarea id="resJWT" rows="4" cols="150">
 	</textarea>
 
-	<br><br>
+	<br>
+	<br>
 
-	<input type="button" value="Test JWT"
-		onclick="testJWT($('#resJWT').val())" />
-		
-	<br><br><hr>	
-	
+	<input type="button" value="Test JWT" onclick="testJWT($('#resJWT').val())" />
+
+	<br>
+	<br>
+	<hr>
+
 	<h3>JWE</h3>
 
 	<form>
@@ -77,23 +75,27 @@
 		Password: <input type="password" id="passwordJWE">
 	</form>
 	<br>
-	
-	<input type="button" value="Get JWE" onclick="getJWE($('#usernameJWE').val(), $('#passwordJWE').val())" />
-	
+
+	<input type="button" value="Get JWE" 
+		onclick="getJWE($('#usernameJWE').val(), $('#passwordJWE').val())" />
+
 	<br>
-	
+
 	<h4>JWE Token</h4>
 
 	<textarea id="resJWE" rows="4" cols="150">
 	</textarea>
 
-	<br><br>
+	<br>
+	<br>
 
-	<input type="button" value="Test JWE"
+	<input type="button" value="Test JWE" 
 		onclick="testJWE($('#resJWE').val())" />
-		
-	<br><br><hr>
-		
+
+	<br>
+	<br>
+	<hr>
+
 	<h3>ApiKey</h3>
 
 	<form>
@@ -101,24 +103,29 @@
 		Password: <input type="password" id="passwordapikey">
 	</form>
 	<br>
-	
-	<input type="button" value="Get Api Key" onclick="getApiKey($('#usernameapikey').val(), $('#passwordapikey').val())" />
-	
+
+	<input type="button" value="Get Api Key"
+		onclick="getApiKey($('#usernameapikey').val(), $('#passwordapikey').val())" />
+
 	<br>
-	
+
 	<h4>User ApiKey</h4>
 
 	<textarea id="inputApiKey" rows="1" cols="40">
 	</textarea>
-	
+
 	<br>
-	
+
 	<h4 id="resApiKey"></h4>
-	
+
 	<br>
 
 	<input type="button" value="Test ApiKey"
 		onclick="testApiKey($('#usernameapikey').val(), $('#passwordapikey').val(), $('#inputApiKey').val())" />
 
+	<br>
+	<input type="button" value="Acceder a leer el texto"
+		onclick="existApikey($('#usernameapikey').val(), $('#passwordapikey').val())" />
+	<h4 id="resApiKeyExist">Texto sin Acceso</h4>
 </body>
 </html>
