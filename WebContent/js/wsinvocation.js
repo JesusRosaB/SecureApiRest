@@ -241,7 +241,6 @@ function getApiKey(username, password) {
 				"password" : password
 			},
 			dataType : "text",
-			contentType: "text/plain",
 			success : function(dat) {
 				myapikey = dat;
 				$("#inputApiKey").html(dat);
@@ -277,7 +276,6 @@ function testApiKey(username, password, apikey) {
 				"apikey" : apikey
 			},
 			dataType : "text",
-			contentType: "text/plain",
 			success : function(dat) {
 				$("#resApiKey").html(dat);
 			},
