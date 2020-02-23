@@ -393,6 +393,24 @@ public class SecureApiRest {
 		}
 		return "Access DENIED";
 	}
+	
+	
+	@POST
+	@Path("/existApikey")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Comprobar apikey de autenticación",
+			notes = "Comprueba la apikey de autenticación de un usuario existe"
+			)
+	public Response existApiKey(@HeaderParam("username") String username, @HeaderParam("password") String password) {
+		if (myUsersMap.get(username) != null) {
+			if (myUsersMap.get(username).getApikey()!= null) {
+				return Response.status(Status.ACCEPTED.getStatusCode()).entity("Acceso permitido").build();
+			} 
+		}
+		return Response.status(Status.FORBIDDEN.getStatusCode()).entity("Acceso denegado").build();
+	}
 
 	static JsonWebKey jwKey = null;
 	static {
