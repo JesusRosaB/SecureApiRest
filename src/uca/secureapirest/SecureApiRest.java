@@ -104,7 +104,7 @@ public class SecureApiRest {
 
 	@GET
 	@Path("/articleJSON")
-	@Produces({ "application/json" })
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Devuelve un articulo",
 			notes = "Muestra todos los datos de un articulo en formato JSON"
@@ -209,7 +209,7 @@ public class SecureApiRest {
 
 	@GET
 	@Path("/getArticle/{article}")
-	@Produces({ "application/json" })
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Obtener un articulo por su ID",
 			notes = "Obtiene los datos de un articulo registrado por su ID"
@@ -225,7 +225,7 @@ public class SecureApiRest {
 		}
 	}
 
-	@Produces({ "application/json" })
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getArticle(@PathParam("article") String key) {
 		Article myArticle = myMap.get(key);
 		return key + " is:\n" + "Oid: " + myArticle.getOid() + "\n" + "Autor: " + myArticle.getAutor() + "\n"
@@ -301,7 +301,8 @@ public class SecureApiRest {
 			return Response.status(Status.FORBIDDEN.getStatusCode()).entity("Forbidden").build();
 		}
 		String sayHello = "Your token is correct";
-		return Response.status(200).entity(sayHello).build();
+		return Response.status(Status.ACCEPTED.getStatusCode()).entity(sayHello).build();
+
 	}
 
 	private static Map<String, User> myUsersMap = new HashMap<>();
@@ -450,7 +451,8 @@ public class SecureApiRest {
 		} catch (JoseException e) {
 			e.printStackTrace();
 		}
-		return Response.status(200).entity(jweSerialization).build();
+		return Response.status(Status.ACCEPTED.getStatusCode()).entity(jweSerialization).build();
+
 	}
 
 	@POST
@@ -475,7 +477,8 @@ public class SecureApiRest {
 			return Response.status(Status.FORBIDDEN.getStatusCode()).entity("Forbidden").build();
 		}
 		String sayHello = "Your token is correct";
-		return Response.status(200).entity(sayHello).build();
+		return Response.status(Status.ACCEPTED.getStatusCode()).entity(sayHello).build();
+
 	}
 
 }
