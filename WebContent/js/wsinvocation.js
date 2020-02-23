@@ -1,7 +1,7 @@
 var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 var regexUsername = /^(?=.{4,20}$)[a-z0-9]{0,1}([a-z0-9._-][a-z0-9]+)*[a-z0-9.-_]{0,1}$/i;
 var regexApiKey = /^[a-z0-9]{8}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{4}[-][a-z0-9]{12}$/i;
-var regexToken = /^[a-zA-Z0-9-_.]{550,570}$/i;
+var regexToken = /^[a-zA-Z0-9-_.]{350,800}$/i;
 var regexAutor = /^[a-zA-Z0-9]{5,50}$/i;
 var regexDescription = /^[a-zA-Z0-9]{10,500}$/i;
 var regexOID = /^[\s\S]{5,50}$/i;
@@ -42,6 +42,7 @@ function getArticleId(myId) {
 			type : "GET",
 			url : myUrl,
 			dataType : "text",
+			contentType: "application/json",
 			data : myId,
 			success : function(data) {
 				$("#resArticle").html(data);
@@ -64,6 +65,7 @@ function deleteArticle(myId) {
 			type : "DELETE",
 			url : myUrl,
 			dataType : "text",
+			contentType: "text/plain",
 			data : myId,
 			success : function(data) {
 				$("#resArticle").html(data);
@@ -105,6 +107,7 @@ function createArticle(myId, autor, description, oid) {
 				"oid" : oid
 			},
 			dataType : "text",
+			contentType: "text/plain",
 			data : myId,
 			success : function(data) {
 				$("#resArticle").html(data);
@@ -147,6 +150,7 @@ function modifyArticle(myId, autor, description, oid) {
 				"oid" : oid
 			},
 			dataType : "text",
+			contentType: "text/plain",
 			data : myId,
 			success : function(data) {
 				$("#resArticle").html(data);
@@ -182,6 +186,7 @@ function getJWT(username, password) {
 				"password" : password
 			},
 			dataType : "text",
+			contentType: "text/plain",
 			success : function(dat) {
 				mytoken = dat;
 				$("#resJWT").html(dat);
@@ -200,7 +205,6 @@ function testJWT(mytoken) {
 		$.ajax({
 			type : "POST",
 			url : "https://localhost:8443/SecureApiRest/SSD/testJWT",
-			// contentType: "text/plain",
 			headers : {
 				"token" : mytoken
 			},
@@ -237,6 +241,7 @@ function getApiKey(username, password) {
 				"password" : password
 			},
 			dataType : "text",
+			contentType: "text/plain",
 			success : function(dat) {
 				myapikey = dat;
 				$("#inputApiKey").html(dat);
@@ -272,6 +277,7 @@ function testApiKey(username, password, apikey) {
 				"apikey" : apikey
 			},
 			dataType : "text",
+			contentType: "text/plain",
 			success : function(dat) {
 				$("#resApiKey").html(dat);
 			},
@@ -304,6 +310,7 @@ function getJWE(username, password) {
 				"password" : password
 			},
 			dataType : "text",
+			contentType: "application/json",
 			success : function(dat) {
 				mytoken = dat;
 				$("#resJWE").html(dat);
@@ -322,7 +329,6 @@ function testJWE(mytoken) {
 		$.ajax({
 			type : "POST",
 			url : "https://localhost:8443/SecureApiRest/SSD/testJWE",
-			// contentType: "text/plain",
 			headers : {
 				"token" : mytoken
 			},
