@@ -304,10 +304,10 @@ function existApikey(username, password) {
 			},
 			dataType : "text",
 			success : function(dat) {
-				$("#resApiKeyExist").html("El Usuario "+ username +" puede acceder");
+				$("#resApiKeyExist").html("USer "+ username +" can access");
 			},
 			error : function(res) {
-				$("#resApiKeyExist").html(username +" No puede acceder");
+				$("#resApiKeyExist").html(username +" can not access");
 			}
 		});
 	} else {
