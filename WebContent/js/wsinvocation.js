@@ -34,7 +34,8 @@ function getHello2() {
 
 }
 
-function getArticleId(myId) {
+function getArticleId() {
+	var myId = document.getElementById("articleid").value;
 	if(regexArticleId.test(myId)){
 		var myUrl = "https://localhost:8443/SecureApiRest/SSD/getArticle/" + myId;
 		console.log(myUrl);
@@ -49,7 +50,6 @@ function getArticleId(myId) {
 			},
 			error : function(res) {
 				$("#resArticle").html(res);
-				// alert("ERROR " + res.statusText);
 			}
 
 		});
@@ -72,7 +72,6 @@ function deleteArticle(myId) {
 			},
 			error : function(res) {
 				$("#resArticle").html(res);
-				// alert("ERROR " + res.statusText);
 			}
 
 		});
@@ -114,7 +113,6 @@ function createArticle(myId, autor, description, oid) {
 			},
 			error : function(res) {
 				$("#resArticle").html(res);
-				// alert("ERROR " + res.statusText);
 			}
 
 		});
@@ -157,7 +155,6 @@ function modifyArticle(myId, autor, description, oid) {
 			},
 			error : function(res) {
 				$("#resArticle").html(res);
-				// alert("ERROR " + res.statusText);
 			}
 
 		});
